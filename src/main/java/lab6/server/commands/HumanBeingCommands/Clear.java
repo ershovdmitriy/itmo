@@ -25,8 +25,8 @@ public class Clear implements ServerCommand {
     }
 
     @Override
-    public CommandResponse execute(CommandRequest<?, ?> commandRequest) {
+    public CommandResponse<?> execute(CommandRequest<?, ?> commandRequest) {
         manager.clearCollection();
-        return new CommandResponse(true, getName(), "Коллекция очищена.");
+        return new CommandResponse<>(getName(), "Коллекция очищена.");
     }
 }

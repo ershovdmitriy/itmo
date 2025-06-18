@@ -29,12 +29,13 @@ public class ReplaceIfLowe<T> implements ServerCommand {
     }
 
     @Override
-    public CommandResponse execute(CommandRequest<?, ?> commandRequest) {
+    public CommandResponse<?> execute(CommandRequest<?, ?> commandRequest) {
         String key = (String) commandRequest.getArgument();
-        T object = (T) commandRequest.getArgument();
+        T object = (T) commandRequest.getObject();
+        System.out.println(object);
         if (comparator.compare(object ,manager.getCollection().get(key)) < 0){
             manager.addElementToCollection(key, object);
         }
-        return new CommandResponse(true, getName(), "Элемент с ключом " + key + " изменен.");
+        return new CommandResponse<>(getName(), "Элемент с ключом " + key + " изменен.");
     }
 }

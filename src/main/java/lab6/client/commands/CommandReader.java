@@ -35,7 +35,6 @@ public class CommandReader<C extends Map<String, ClientCommand>, T> {
                 System.out.println();
             } catch (CommandException e) {
                 System.out.println(e.getMessage());
-                //System.out.println("Выполнение команды [" + line + "] было прервано. Вы можете продолжать работу.");
             }
         }
     }
@@ -56,9 +55,13 @@ public class CommandReader<C extends Map<String, ClientCommand>, T> {
             try {
                 commandMap.get(args[0]).setArgument(argument);
                 if (commandMap.get(args[0]).checkArgument()){
-                    CommandResponse commandResponse = udpClient.sendRequest(commandMap.get(args[0]).buildRequest(), maxRetries);
-                    System.out.println(commandResponse.getMessage());
-                    System.out.println(commandResponse.getData().toString());
+                    CommandResponse<?> commandResponse = udpClient.sendRequest(commandMap.get(args[0]).buildRequest(), maxRetries);
+                    if(commandResponse.getCommand() != null){
+                        commandMap.get(commandResponse.getCommand()).read(commandResponse);
+                    }
+                    else{
+                        System.out.println(commandResponse.getMessage());
+                    }
                 }
                 else{
                     System.out.println("Попробуйте еще раз");

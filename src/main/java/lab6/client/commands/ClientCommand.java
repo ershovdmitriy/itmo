@@ -2,6 +2,7 @@ package lab6.client.commands;
 
 import lab6.common.exception.CommandException;
 import lab6.common.service.CommandRequest;
+import lab6.common.service.CommandResponse;
 
 public abstract class ClientCommand implements ClientCommandInterface{
 
@@ -23,4 +24,7 @@ public abstract class ClientCommand implements ClientCommandInterface{
 
     @Override
     public abstract CommandRequest<?, ?> buildRequest() throws CommandException;
+
+    @Override
+    public abstract void read(CommandResponse<?> commandResponse) throws CommandException;
 }

@@ -3,8 +3,9 @@ package lab6.client.commands.HumanBeingCommands;
 import lab6.client.commands.ClientCommand;
 import lab6.common.exception.CommandException;
 import lab6.common.service.CommandRequest;
+import lab6.common.service.CommandResponse;
 
-public class MinByImpactSpeed extends ClientCommand {
+public class MinByImpactSpeed<T> extends ClientCommand {
 
     @Override
     public String getName() {
@@ -24,5 +25,12 @@ public class MinByImpactSpeed extends ClientCommand {
     @Override
     public CommandRequest<?, ?> buildRequest() throws CommandException {
         return new CommandRequest<>(getName());
+    }
+
+    @Override
+    public void read(CommandResponse<?> commandResponse) throws CommandException {
+        System.out.println(commandResponse.getMessage());
+        T object = (T) commandResponse.getData();
+        System.out.println(object);
     }
 }

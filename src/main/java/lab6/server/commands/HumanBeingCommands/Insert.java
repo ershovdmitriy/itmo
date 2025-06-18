@@ -26,10 +26,10 @@ public class Insert<T> implements ServerCommand {
     }
 
     @Override
-    public CommandResponse execute(CommandRequest<?, ?> commandRequest) {
+    public CommandResponse<?> execute(CommandRequest<?, ?> commandRequest) {
         String key = (String) commandRequest.getArgument();
         T object = (T) commandRequest.getObject();
         manager.addElementToCollection(key, object);
-        return new CommandResponse(true, getName(), "Элемент добавлен в коллекцию.");
+        return new CommandResponse<>(getName(), "Элемент добавлен в коллекцию.");
     }
 }

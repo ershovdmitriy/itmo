@@ -27,7 +27,7 @@ public class CountGreaterThanImpactSpeed implements ServerCommand {
     }
 
     @Override
-    public CommandResponse execute(CommandRequest<?, ?> commandRequest) {
+    public CommandResponse<Integer> execute(CommandRequest<?, ?> commandRequest) {
         Long impactSpeed = (Long) commandRequest.getArgument();
         int countObject = 0;
         for (String key: manager.getCollection().keySet()) {
@@ -35,6 +35,6 @@ public class CountGreaterThanImpactSpeed implements ServerCommand {
                 countObject += 1;
             }
         }
-        return new CommandResponse(true, getName(), "Количество элементов: ", countObject);
+        return new CommandResponse<>(getName(), "Количество элементов: ", countObject);
     }
 }

@@ -26,11 +26,11 @@ public class Help implements ServerCommand {
     }
 
     @Override
-    public CommandResponse execute(CommandRequest<?, ?> commandRequest) {
+    public CommandResponse<HashMap<String, String>> execute(CommandRequest<?, ?> commandRequest) {
         HashMap<String, String> helpMap = new HashMap<>();
         for (String command: commandMap.keySet()){
             helpMap.put(commandMap.get(command).getName(), commandMap.get(command).getDescr());
         }
-        return new CommandResponse(true, getName(), "Доступные команды:", helpMap);
+        return new CommandResponse<>(getName(), "Доступные команды:", helpMap);
     }
 }

@@ -5,16 +5,14 @@ import lab6.common.collection.HumanBeing.HumanBeing;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class HumanBeingManagers implements CollectionManager<LinkedHashMap<String, HumanBeing>, HumanBeing>{
     private LinkedHashMap<String, HumanBeing> humanBeingLinkedHashMap;
     private final String pathToDataFile;
     private final FileManager<LinkedHashMap<String, HumanBeing>> fileManager;
     private final LocalDate creationDate;
+    private IdManager<HumanBeing> idManager;
 
     public HumanBeingManagers(FileManager<LinkedHashMap<String, HumanBeing>> fileManager, String envKey){
         creationDate = LocalDate.now();
@@ -60,6 +58,7 @@ public class HumanBeingManagers implements CollectionManager<LinkedHashMap<Strin
 
     @Override
     public void addElementToCollection(String key, HumanBeing humanBeing){
+        humanBeing.setId(idManager.generateId());
         humanBeingLinkedHashMap.put(key, humanBeing);
     }
 
@@ -91,5 +90,9 @@ public class HumanBeingManagers implements CollectionManager<LinkedHashMap<Strin
         for (Map.Entry<String, HumanBeing> entry : entries) {
             humanBeingLinkedHashMap.put(entry.getKey(), entry.getValue());
         }
+    }
+
+    public void setIdManager(IdManager<HumanBeing> idManager){
+        this.idManager = idManager;
     }
 }

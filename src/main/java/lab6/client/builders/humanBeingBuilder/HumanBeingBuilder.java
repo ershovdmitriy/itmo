@@ -4,6 +4,7 @@ import lab6.client.builders.ObjectBuilder;
 import lab6.common.collection.HumanBeing.HumanBeing;
 import lab6.common.validators.InputValidator;
 
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -33,6 +34,9 @@ public class HumanBeingBuilder implements ObjectBuilder<HumanBeing> {
           System.out.println("Строка на должна быть пустой. Попробуй еще.");
         }
       }
+
+      Date date = new Date();
+      humanBeing.setCreationDate(date);
 
       CoordinatesBuilder coordinatesBuilder = new CoordinatesBuilder();
       coordinatesBuilder.setScanner(scanner);

@@ -3,8 +3,11 @@ package lab6.client.commands.HumanBeingCommands;
 import lab6.client.commands.ClientCommand;
 import lab6.common.exception.CommandException;
 import lab6.common.service.CommandRequest;
+import lab6.common.service.CommandResponse;
 
-public class Show extends ClientCommand {
+import java.util.HashMap;
+
+public class Show<T> extends ClientCommand {
 
     @Override
     public String getName() {
@@ -24,5 +27,14 @@ public class Show extends ClientCommand {
     @Override
     public CommandRequest<?, ?> buildRequest() throws CommandException {
         return new CommandRequest<>(getName());
+    }
+
+    @Override
+    public void read(CommandResponse<?> commandResponse) throws CommandException {
+        System.out.println(commandResponse.getMessage());
+        HashMap<String, T> map = (HashMap<String, T>) commandResponse.getData();
+        for (String key : map.keySet()) {
+            System.out.println(key + ": " + map.get(key));
+        }
     }
 }

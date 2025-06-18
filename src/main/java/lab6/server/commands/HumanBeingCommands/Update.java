@@ -30,15 +30,15 @@ public class Update<T extends HavingId> implements ServerCommand {
     }
 
     @Override
-    public CommandResponse execute(CommandRequest<?, ?> commandRequest) {
+    public CommandResponse<?> execute(CommandRequest<?, ?> commandRequest) {
         Integer id = (Integer) commandRequest.getArgument();
         T object = (T) commandRequest.getObject();
         String key = idManager.checkObjectById(id);
         if(key == null){
-            return new CommandResponse(false, getName(), "Элемента с таким id-номером нет в текущей коллекции!");
+            return new CommandResponse<>(getName(), "Элемента с таким id-номером нет в текущей коллекции!");
         } else{
             manager.addElementToCollection(key, object);
-            return new CommandResponse(true, getName(), "Элемента с данным ID успешно заменен.");
+            return new CommandResponse<>(getName(), "Элемента с данным ID успешно заменен.");
         }
     }
 }

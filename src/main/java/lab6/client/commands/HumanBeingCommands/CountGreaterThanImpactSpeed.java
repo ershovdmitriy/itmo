@@ -4,6 +4,7 @@ package lab6.client.commands.HumanBeingCommands;
 import lab6.client.commands.ClientCommand;
 import lab6.common.exception.CommandException;
 import lab6.common.service.CommandRequest;
+import lab6.common.service.CommandResponse;
 
 public class CountGreaterThanImpactSpeed extends ClientCommand {
 
@@ -30,6 +31,13 @@ public class CountGreaterThanImpactSpeed extends ClientCommand {
 
     @Override
     public CommandRequest<Long, ?> buildRequest() throws CommandException {
+        System.out.println(getArgument());
         return new CommandRequest<>(getName(), Long.parseLong(getArgument()));
+    }
+
+    @Override
+    public void read(CommandResponse<?> commandResponse) throws CommandException {
+        System.out.println(commandResponse.getMessage());
+        System.out.println(commandResponse.getData());
     }
 }

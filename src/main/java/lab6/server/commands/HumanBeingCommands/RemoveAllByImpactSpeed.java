@@ -18,7 +18,7 @@ public class RemoveAllByImpactSpeed implements ServerCommand {
 
     @Override
     public String getName() {
-        return "remove_all_by_impact_speed [impact_speed]";
+        return "remove_all_by_impact_speed";
     }
 
     @Override
@@ -27,13 +27,13 @@ public class RemoveAllByImpactSpeed implements ServerCommand {
     }
 
     @Override
-    public CommandResponse execute(CommandRequest<?, ?> commandRequest){
+    public CommandResponse<?> execute(CommandRequest<?, ?> commandRequest){
         Long impact_speed = (Long) commandRequest.getArgument();
         for (String key: manager.getCollection().keySet()) {
             if (manager.getCollection().get(key).getImpactSpeed().equals(impact_speed)) {
                 manager.removeElementToCollection(key);
             }
         }
-        return new CommandResponse(true, getName(), "Элементы с impactSpeed = " + impact_speed + " удалены.");
+        return new CommandResponse<>(getName(), "Элементы с impactSpeed = " + impact_speed + " удалены.");
     }
 }

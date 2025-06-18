@@ -8,11 +8,11 @@ import lab6.server.commands.ServerCommand;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Show implements ServerCommand {
+public class Show<T> implements ServerCommand {
 
-    private final CollectionManager<? extends Map<?, ?>, ?> manager;
+    private final CollectionManager<? extends Map<?, T>, T> manager;
 
-    public Show(CollectionManager<? extends Map<?, ?>, ?> manager) {
+    public Show(CollectionManager<? extends Map<?, T>, T> manager) {
         this.manager = manager;
     }
 
@@ -27,15 +27,15 @@ public class Show implements ServerCommand {
     }
 
     @Override
-    public CommandResponse execute(CommandRequest<?, ?> commandRequest) {
+    public CommandResponse<HashMap<String, T>> execute(CommandRequest<?, ?> commandRequest) {
         if(manager.getCollection().isEmpty()){
-            return new CommandResponse(false, getName(), "Коллекция пуста.");
+            return new CommandResponse<>(getName(), "Коллекция пуста.");
         }
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, T> map = new HashMap<>();
         manager.sortCollection();
         for (var key: manager.getCollection().keySet()){
-            map.put(key, manager.getCollection().get(key).toString());
+            map.put(key, manager.getCollection().get(key));
         }
-        return new CommandResponse(true, getName(), "Все элементы коллекции:", map);
+        return new CommandResponse<>(getName(), "Все элементы коллекции:", map);
     }
 }

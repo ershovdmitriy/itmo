@@ -26,14 +26,14 @@ public class RemoveKey implements ServerCommand {
     }
 
     @Override
-    public CommandResponse execute(CommandRequest<?, ?> commandRequest) {
+    public CommandResponse<?> execute(CommandRequest<?, ?> commandRequest) {
         String key = (String) commandRequest.getArgument();
         if(manager.checkObjectByKey(key)){
             manager.removeElementToCollection(key);
-            return new CommandResponse(true, getName(), "Элемент с ключом: " + key + " удален.");
+            return new CommandResponse<>(getName(), "Элемент с ключом: " + key + " удален.");
         }
         else{
-            return new CommandResponse(false, getName(), "Элемент с ключом: " + key + " не найден.");
+            return new CommandResponse<>(getName(), "Элемент с ключом: " + key + " не найден.");
         }
     }
 }

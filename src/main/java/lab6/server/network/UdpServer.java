@@ -66,14 +66,14 @@ public class UdpServer<C extends Map<String, ServerCommand>> {
     }
 
     private void processRequest(DatagramChannel channel, SocketAddress clientAddress, byte[] data) {
-        CommandResponse response;
+        CommandResponse<?> response;
         try {
             CommandRequest<?, ?> request = Serializer.deserialize(data, CommandRequest.class);
             ServerLogger.log("Получена команда: " + request.getCommandName());
             ServerCommand command = commandMap.get(request.getCommandName());
             response = command.execute(request);
         } catch (Exception e) {
-            response = new CommandResponse(false, null, "Ошибка: " + e.getMessage());
+            response = new CommandResponse<>( null, "Ошибка: " + e.getMessage());
         }
         try {
             byte[] responseData = Serializer.serialize(response);

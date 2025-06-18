@@ -26,11 +26,11 @@ public class Info implements ServerCommand {
     }
 
     @Override
-    public CommandResponse execute(CommandRequest<?, ?> commandRequest) {
+    public CommandResponse<?> execute(CommandRequest<?, ?> commandRequest) {
         String message = "Информация о коллекции:" +
         "\nТип коллекции: " + manager.getCollection().getClass() +
         "\nДата создания: " + manager.getCreationDate() +
         "\nКоличество элементов: " + manager.getCollection().size();
-        return new CommandResponse(true, getName(), message);
+        return new CommandResponse<>(getName(), message);
     }
 }

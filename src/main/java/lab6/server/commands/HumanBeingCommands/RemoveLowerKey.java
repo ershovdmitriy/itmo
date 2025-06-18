@@ -26,13 +26,13 @@ public class RemoveLowerKey implements ServerCommand {
     }
 
     @Override
-    public CommandResponse execute(CommandRequest<?, ?> commandRequest) {
+    public CommandResponse<?> execute(CommandRequest<?, ?> commandRequest) {
         String key = (String) commandRequest.getArgument();
         for (String k: manager.getCollection().keySet()) {
             if (k.compareTo(key) < 0) {
                 manager.removeElementToCollection(key);
             }
         }
-        return new CommandResponse(true, getName(), "Все элементы с ключом меньше чем " + key + " удалены.");
+        return new CommandResponse<>(getName(), "Все элементы с ключом меньше чем " + key + " удалены.");
     }
 }

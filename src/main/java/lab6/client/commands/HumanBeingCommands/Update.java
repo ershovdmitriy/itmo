@@ -4,6 +4,7 @@ import lab6.client.builders.ObjectBuilder;
 import lab6.client.commands.ClientCommand;
 import lab6.common.exception.CommandException;
 import lab6.common.service.CommandRequest;
+import lab6.common.service.CommandResponse;
 
 public class Update<T> extends ClientCommand {
 
@@ -37,5 +38,10 @@ public class Update<T> extends ClientCommand {
     @Override
     public CommandRequest<Integer, T> buildRequest() throws CommandException {
         return new CommandRequest<>(getName(), Integer.parseInt(getArgument()), builder.build());
+    }
+
+    @Override
+    public void read(CommandResponse<?> commandResponse) throws CommandException {
+        System.out.println(commandResponse.getMessage());
     }
 }

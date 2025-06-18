@@ -16,7 +16,7 @@ public class CommandMapForHumanBeing implements CommandMap<LinkedHashMap<String,
         this.commandMap = new LinkedHashMap<>();
         commandMap.put("info", new Info(humanBeingManagers));
         commandMap.put("help", new Help(commandMap));
-        commandMap.put("show", new Show(humanBeingManagers));
+        commandMap.put("show", new Show<>(humanBeingManagers));
         commandMap.put("insert", new Insert<>(humanBeingManagers));
         commandMap.put("update", new Update<>(humanBeingManagers, idManager));
         commandMap.put("remove_key", new RemoveKey(humanBeingManagers));

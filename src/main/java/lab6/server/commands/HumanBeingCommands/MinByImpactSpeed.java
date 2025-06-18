@@ -30,7 +30,7 @@ public class MinByImpactSpeed implements ServerCommand {
     }
 
     @Override
-    public CommandResponse execute(CommandRequest<?, ?> commandRequest) {
+    public CommandResponse<HumanBeing> execute(CommandRequest<?, ?> commandRequest) {
         HumanBeing minImpactSpeed = new HumanBeing();
         minImpactSpeed.setImpactSpeed(Long.MAX_VALUE);
         for (String key: manager.getCollection().keySet()) {
@@ -38,6 +38,6 @@ public class MinByImpactSpeed implements ServerCommand {
                 minImpactSpeed = manager.getCollection().get(key);
             }
         }
-        return new CommandResponse(true, getName(), "Элемент с минимальным Impact Speed:", minImpactSpeed);
+        return new CommandResponse<>(getName(), "Элемент с минимальным Impact Speed:", minImpactSpeed);
     }
 }
