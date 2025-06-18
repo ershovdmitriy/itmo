@@ -2,26 +2,22 @@ package lab6.common.service;
 
 import java.io.Serializable;
 
-public class CommandResponse implements Serializable {
-    private boolean success;
+public class CommandResponse<T> implements Serializable {
     private String command;
     private String message;
-    private Object data;
+    private T data;
 
-    public CommandResponse(boolean success, String command, String message) {
-        this.success = success;
+    public CommandResponse(String command, String message) {
+        this.command = command;
         this.message = message;
     }
 
-    public CommandResponse(boolean success, String command, String message, Object data) {
-        this.success = success;
+    public CommandResponse(String command, String message, T data) {
+        this.command = command;
         this.message = message;
         this.data = data;
     }
 
-    public boolean getSuccess() {
-        return success;
-    }
 
     public String getCommand() {
         return command;
@@ -31,7 +27,7 @@ public class CommandResponse implements Serializable {
         return message;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 }
