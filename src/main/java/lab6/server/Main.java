@@ -21,7 +21,7 @@ public class Main {
             HumanBeingManagers humanBeingManagers = new HumanBeingManagers(jsonManager, "FILE_NAME");
             IdManager<HumanBeing> idManager = new IdManager<>(humanBeingManagers);
             CommandMapForHumanBeing commandMapForHumanBeing = new CommandMapForHumanBeing(humanBeingManagers, idManager);
-            UdpServer<LinkedHashMap<String, ServerCommand>> udpServer = new UdpServer<>(PORT, BUFFER_SIZE, commandMapForHumanBeing);
+            UdpServer<LinkedHashMap<String, ServerCommand>> udpServer = new UdpServer<>(PORT, BUFFER_SIZE, commandMapForHumanBeing, humanBeingManagers);
 
             udpServer.start();
         } catch (Exception e) {

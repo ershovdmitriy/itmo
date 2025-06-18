@@ -3,6 +3,7 @@ package lab6.server.network;
 import lab6.common.service.CommandRequest;
 import lab6.common.service.CommandResponse;
 import lab6.common.service.Serializer;
+import lab6.server.collection.CollectionManager;
 import lab6.server.commands.CommandMap;
 import lab6.server.commands.ServerCommand;
 import lab6.server.logging.ServerLogger;
@@ -13,18 +14,25 @@ import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
 import java.util.Map;
+import java.util.Scanner;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class UdpServer<C extends Map<String, ServerCommand>> {
     private final int port;
     private final int bufferSize;
     private final C commandMap;
-    private final ReadableByteChannel inputChannel;
+    private volatile boolean running = true;
 
-    public UdpServer(int port, int bufferSize, CommandMap<C> commandMap) {
+    private final ConcurrentLinkedQueue<String> commandQueue = new ConcurrentLinkedQueue<>();
+    private final CollectionManager<?, ?> collectionManager;
+
+    public UdpServer(int port, int bufferSize, CommandMap<C> commandMap, CollectionManager<?, ?> collectionManager) {
         this.port = port;
         this.bufferSize = bufferSize;
         this.commandMap = commandMap.getCommandMap();
-        this.inputChannel = Channels.newChannel(System.in);
+
+        this.collectionManager = collectionManager;
+        startConsoleReader();
     }
 
     public void start() {
@@ -35,7 +43,7 @@ public class UdpServer<C extends Map<String, ServerCommand>> {
             ServerLogger.log("Ожидание запросов...");
             ByteBuffer buffer = ByteBuffer.allocate(bufferSize);
 
-            while (true) {
+            while (running) {
                 try {
                     buffer.clear();
                     SocketAddress clientAddress = channel.receive(buffer);
@@ -46,6 +54,9 @@ public class UdpServer<C extends Map<String, ServerCommand>> {
                         buffer.clear();
                         processRequest(channel, clientAddress, data);
                     }
+
+                    processConsoleCommands();
+
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
                     ServerLogger.log("Сервер остановлен");
@@ -56,12 +67,6 @@ public class UdpServer<C extends Map<String, ServerCommand>> {
             }
         } catch (IOException e) {
             ServerLogger.error("Ошибка запуска сервера: " + e.getMessage());
-        } finally {
-            try {
-                inputChannel.close();
-            } catch (IOException e) {
-                ServerLogger.error("Ошибка закрытия консольного канала: " + e.getMessage());
-            }
         }
     }
 
@@ -84,5 +89,41 @@ public class UdpServer<C extends Map<String, ServerCommand>> {
             ServerLogger.error("Ошибка при отправке ответа: " + e.getMessage());
         }
         ServerLogger.log("Запрос от " + clientAddress + " обработан");
+    }
+
+
+    private void startConsoleReader() {
+        Thread consoleThread = new Thread(() -> {
+            try (Scanner scanner = new Scanner(System.in)) {
+                while (running) {
+                    if (scanner.hasNextLine()) {
+                        String command = scanner.nextLine().trim();
+                        commandQueue.add(command);
+                    }
+                }
+            }
+        });
+        consoleThread.setDaemon(true); // Демон-поток завершится с основным приложением
+        consoleThread.start();
+    }
+
+    // Обработка команд из очереди
+    private void processConsoleCommands() {
+        while (!commandQueue.isEmpty()) {
+            String command = commandQueue.poll();
+            switch (command.toLowerCase().trim()) {
+                case "save":
+                    collectionManager.saveCollection();
+                    ServerLogger.log("Данные успешно сохранены!");
+                    break;
+                case "exit":
+                    ServerLogger.log("Завершение работы сервера...");
+                    collectionManager.saveCollection();
+                    running = false;
+                    break;
+                default:
+                    ServerLogger.error("Неизвестная команда: " + command);
+            }
+        }
     }
 }
