@@ -6,11 +6,11 @@ import lab6.common.service.CommandResponse;
 
 public interface ClientCommandInterface {
 
-    String getName();
+  String getName();
 
-    boolean checkArgument();
+  boolean checkArgument();
 
-    CommandRequest<?, ?> buildRequest() throws CommandException;
+  CommandRequest<?, ?> buildRequest() throws CommandException;
 
-    void read(CommandResponse<?> commandResponse) throws CommandException;
+  void read(CommandResponse<?> commandResponse) throws CommandException;
 }

@@ -7,28 +7,28 @@ import lab6.common.service.CommandResponse;
 
 public class RemoveLowerKey extends ClientCommand {
 
-    @Override
-    public String getName() {
-        return "remove_lower_key";
-    }
+  @Override
+  public String getName() {
+    return "remove_lower_key";
+  }
 
-    @Override
-    public boolean checkArgument() {
-        if (getArgument() == null) {
-            System.out.println("remove_lower_key имеет аргумент типа String");
-            return false;
-        } else {
-            return true;
-        }
+  @Override
+  public boolean checkArgument() {
+    if (getArgument() == null) {
+      System.out.println("remove_lower_key имеет аргумент типа String");
+      return false;
+    } else {
+      return true;
     }
+  }
 
-    @Override
-    public CommandRequest<String, ?> buildRequest() throws CommandException {
-        return new CommandRequest<>(getName(), getArgument());
-    }
+  @Override
+  public CommandRequest<String, ?> buildRequest() throws CommandException {
+    return new CommandRequest<>(getName(), getArgument());
+  }
 
-    @Override
-    public void read(CommandResponse<?> commandResponse) throws CommandException {
-        System.out.println(commandResponse.getMessage());
-    }
+  @Override
+  public void read(CommandResponse<?> commandResponse) throws CommandException {
+    System.out.println(commandResponse.getMessage());
+  }
 }

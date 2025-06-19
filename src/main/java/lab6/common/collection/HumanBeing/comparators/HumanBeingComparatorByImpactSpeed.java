@@ -1,7 +1,7 @@
 package lab6.common.collection.HumanBeing.comparators;
 
-import lab6.common.collection.HumanBeing.HumanBeing;
 import java.util.Comparator;
+import lab6.common.collection.HumanBeing.HumanBeing;
 
 public class HumanBeingComparatorByImpactSpeed implements Comparator<HumanBeing> {
 

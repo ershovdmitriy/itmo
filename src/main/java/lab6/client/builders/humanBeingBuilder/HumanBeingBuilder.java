@@ -1,14 +1,12 @@
 package lab6.client.builders.humanBeingBuilder;
 
-import lab6.client.builders.ObjectBuilder;
-import lab6.common.collection.HumanBeing.HumanBeing;
-import lab6.common.validators.InputValidator;
-
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-
+import lab6.client.builders.ObjectBuilder;
+import lab6.common.collection.HumanBeing.HumanBeing;
+import lab6.common.validators.InputValidator;
 
 public class HumanBeingBuilder implements ObjectBuilder<HumanBeing> {
 
@@ -20,7 +18,6 @@ public class HumanBeingBuilder implements ObjectBuilder<HumanBeing> {
       HumanBeing humanBeing = new HumanBeing();
       InputValidator inputValidator = new InputValidator();
       String nextLine;
-
 
       String name;
       while (true) {

@@ -1,9 +1,8 @@
 package lab6.client.commands;
 
+import java.util.LinkedHashMap;
 import lab6.client.builders.humanBeingBuilder.HumanBeingBuilder;
 import lab6.client.commands.HumanBeingCommands.*;
-
-import java.util.LinkedHashMap;
 
 public class CommandMapForHumanBeing implements CommandMap<LinkedHashMap<String, ClientCommand>> {
 
